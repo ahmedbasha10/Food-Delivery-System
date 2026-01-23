@@ -77,5 +77,14 @@ This repository contains a system analysis document for a Food Delivery System. 
 
 ---
 
+## Cart Management Analysis
 
+### Flowchart Diagram
 
+<img src="images/Cart_Flowchart.png" alt="Cart Management Flowchart Diagram" width="1312"/>
+
+### Sequence Diagram
+
+### Entity-Relationship Diagram
+
+### Pseudocode
