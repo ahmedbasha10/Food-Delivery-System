@@ -85,6 +85,78 @@ This repository contains a system analysis document for a Food Delivery System. 
 
 ### Sequence Diagram
 
+#### Add Item to Cart
+
+<img src="images/AddItemToCart_SequenceDiagram.png" alt="Cart Management Flowchart Diagram" width="772"/>
+
+#### Modify Cart Items
+
+<img src="images/Modify_Cart_Item_Sequence.png" alt="Cart Management Flowchart Diagram" width="761"/>
+
 ### Entity-Relationship Diagram
 
+<img src="images/Cart_Management_Entity_Relationship.png" alt="Cart Management ER Diagram" width="800"/>
+
 ### Pseudocode
+
+#### Add Item to Cart
+
+```text
+FUNCTION addItemToCart(userId, itemId, quantity):
+    IF userId IS NOT AUTHENTICATED:
+        RETURN "User not authenticated"
+    
+    cart = getUserCart(userId)
+    
+    IF cart DOES NOT EXIST:
+        cart = createNewCart(userId)
+    
+    item = getItemById(itemId)
+    
+    IF item DOES NOT EXIST:
+        RETURN "Item not found"
+    
+    IF item.availability < quantity:
+        RETURN "Insufficient item availability"
+    
+    IF cartContainsOtherRestaurantItems(cart, item.restaurantId):
+        showConfirmation("Your cart contains items from another restaurant. Do you want to clear the cart and add this item?")
+        IF user CONFIRMS:
+            clearCart(cart)
+            addItemToCart(cart, item, quantity)
+            updateCartInfo(cart)
+        ELSE:
+            RETURN "Item not added to cart"
+    ELSE
+        addItemToCart(cart, item, quantity)
+        updateCartInfo(cart)
+     
+    RETURN "Item added to cart successfully"
+```
+
+#### Modify Cart Items
+
+```text
+FUNCTION modifyCartItem(userId, cartId, itemId, quantity):
+    cart = getCartById(cartId)
+    
+    IF cart DOES NOT EXIST:
+        RETURN "Cart not found"
+    
+    item = getItemById(itemId)
+    
+    IF item DOES NOT EXIST:
+        RETURN "Item not found"
+    
+    IF modifyingItemQuantity():
+        IF item.availability < quantity:
+            RETURN "Insufficient item availability"
+        ELSE:
+            updateItemQuantityInCart(cart, item, quantity)
+            updateCartInfo(cart)
+            RETURN "Item quantity updated successfully"
+    ELSE IF removingItemFromCart():
+        removeItemFromCart(cart, item)
+        updateCartInfo(cart)
+        RETURN "Item removed from cart successfully" 
+```        
